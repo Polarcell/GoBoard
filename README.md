@@ -84,7 +84,7 @@ Bus 001 Device 004: ID 8087:0025 Intel Corp.
 Bus 001 Device 003: ID 0c45:6717 Microdia 
 Bus 001 Device 002: ID 0a5c:5832 Broadcom Corp. 
 Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub```
-
+```
   - Actually do the programming: `sudo iceprog -d d:001/005 SwitchesToLEDs.bin`
     - `sudo` needed because mere mortals (i.e. not root) can't access sketchy new USB devices
     - TODO: Create a "udev rule" so that mortals such as I can access my FPGA.  Think of the ProtoDUNE CRT...
