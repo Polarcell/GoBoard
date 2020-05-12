@@ -22,9 +22,11 @@ CONSTRAINTS=/home/abercell/Program/GoBoard/Go_Board_Constraints.pcf
 #Found with lsusb and then taking bus/device
 DEV=001/005
 
+.PHONY: install 
 install : build
-				iceprog -d d:${DEV} $^
+				iceprog -d d:${DEV} $(TOP).bin
 
+.PHONY: build
 build : $(TOP).bin
 
 $(TOP).bin: $(TOP).asc
