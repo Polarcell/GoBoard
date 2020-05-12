@@ -16,15 +16,17 @@
 #Written on FPGA Integrated Circuit
 PACKAGE=vq100
 #Provided by Nandland
-CONSTRAINTS=Go_Board_Constraints.pcf
+CONSTRAINTS=/home/abercell/Program/GoBoard/Go_Board_Constraints.pcf
 
 #TODO: Write a udev rule that standardizes this
 #Found with lsusb and then taking bus/device
 DEV=001/005
 
-.PHONY: flashFPGA
-flashFPGA: $(TOP).bin
+install : build
 				iceprog -d d:${DEV} $^
+
+build : $(TOP).bin
+
 $(TOP).bin: $(TOP).asc
 				icepack $^ $@
 $(TOP).asc: $(TOP).json
