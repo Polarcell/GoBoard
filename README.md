@@ -1,5 +1,5 @@
 # GoBoard
-Place for working on git code
+Place for working on goboard code
 We're using icestorm, found at http://www.clifford.at/icestorm/
 Below is what Andrew did to get project 1 to work
 
