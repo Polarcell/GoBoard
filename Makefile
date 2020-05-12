@@ -28,9 +28,9 @@ flashFPGA: $(TOP).bin
 $(TOP).bin: $(TOP).asc
 				icepack $^ $@
 $(TOP).asc: $(TOP).json
-				nextpnr-ice40 --hx1k --package $(PACKAGE) --freq 25 --top $(TOP) --pcf $(CONSTRAINTS) --json $^ --asc $@
+				nextpnr-ice40 -q --hx1k --package $(PACKAGE) --freq 25 --top $(TOP) --pcf $(CONSTRAINTS) --json $^ --asc $@
 $(TOP).json: $(TOP).v
-				yosys -p "synth_ice40 -top $(TOP) -json $@" $^
+				yosys -q -p "synth_ice40 -top $(TOP) -json $@" $^
 .PHONY: clean
 clean:
-				rm $(TOP).blif $(TOP).asc $(TOP).bin
+				rm -f $(TOP).json $(TOP).asc $(TOP).bin
