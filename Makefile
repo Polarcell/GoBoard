@@ -16,14 +16,16 @@
 #Written on FPGA Integrated Circuit
 PACKAGE=vq100
 #Provided by Nandland
-CONSTRAINTS=/home/abercell/Program/GoBoard/Go_Board_Constraints.pcf
+CONSTRAINTS=$(HOME)/Program/GoBoard/Go_Board_Constraints.pcf
 
 #TODO: Write a udev rule that standardizes this
 #Found with lsusb and then taking bus/device
-DEV=001/005
+LSUB=`lsusb | grep -i "Future Technology"`
+DEV=${LSUB:4:3}/${LSUB:15:3}
 
 .PHONY: install 
 install : build
+				@echo ${DEV}
 				iceprog -d d:${DEV} $(TOP).bin
 
 .PHONY: build
