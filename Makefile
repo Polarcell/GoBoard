@@ -20,13 +20,13 @@ CONSTRAINTS=$(HOME)/Program/GoBoard/Go_Board_Constraints.pcf
 
 #TODO: Write a udev rule that standardizes this
 #Found with lsusb and then taking bus/device
-LSUB=`lsusb | grep -i "Future Technology"`
-DEV=${LSUB:4:3}/${LSUB:15:3}
+LSUB:=$(shell lsusb | grep -i "Future Technology")
+DEV:=$(word 2,$(LSUB))/$(subst :,,$(word 4,$(LSUB)))
 
 .PHONY: install 
 install : build
-				@echo ${DEV}
-				iceprog -d d:${DEV} $(TOP).bin
+				echo $(DEV)
+				iceprog -d d:$(DEV) $(TOP).bin
 
 .PHONY: build
 build : $(TOP).bin
