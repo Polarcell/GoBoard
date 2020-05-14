@@ -17,7 +17,7 @@ module Clocked_Logic_Intro
   reg r_Switch_2 = 1'b0;
   reg r_Switch_3 = 1'b0;
   reg r_Switch_4 = 1'b0;
-               c
+               
   always @ (posedge i_Clk)
     begin
       // If switch 1 is pressed and released
@@ -34,6 +34,13 @@ module Clocked_Logic_Intro
       r_Switch_2 <= i_Switch_2;
       r_Switch_3 <= i_Switch_3;
       r_Switch_4 <= i_Switch_4;
+
+      //We could have used:
+      // if( i_Switch_1 == 1'b0 && r_Switch_1 = 1'b1)
+        // begin
+        //   r_LED_1 <= ~r_LED_1
+        // end
+
 
       r_LED_1    <= r_LED_1 ^ r_Switch_1 & ~i_Switch_1; 
       o_LED_1    <= r_LED_1 ^ r_Switch_1 & ~i_Switch_1; 
