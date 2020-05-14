@@ -26,7 +26,7 @@ DEV:=$(word 2,$(LSUB))/$(subst :,,$(word 4,$(LSUB)))
 .PHONY: install 
 install : build
 				echo $(DEV)
-				iceprog -d d:$(DEV) $(TOP).bin
+				sudo iceprog -d d:$(DEV) $(TOP).bin
 
 .PHONY: build
 build : $(TOP).bin

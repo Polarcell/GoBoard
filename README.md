@@ -1,75 +1,102 @@
 # GoBoard
-Place for working on goboard code
-We're using icestorm, found at http://www.clifford.at/icestorm/
-Below is what Andrew did to get project 1 to work
+Place for working on GoBoard code.  Nandland has an IDE that requires registration to get.  It was the weekend, so we decided on open source.  May head back that way for testbench purposes.
 
-# Andrew's setup for using Linux Icecube tools
+-We're using icestorm, found at http://www.clifford.at/icestorm/  Below is what Andrew did to get project 1 to work
 
-##Packages I needed from `apt`
-- `arachne-pnr` does place and route
-- `yosys` does "synthesis"
-- `fpga-icestorm` seems like it gives me the command that flashes a program onto the FPGA
+# Andrew's setup for using Linx Icecube tools
+
+##Packages needed
+- `nextpnr` does place and route `git clone https://github.com/YosysHQ/nextpnr.git`
+- `yosys` does "synthesis": `git clone https://github.com/cliffordwolf/yosys.git`
+- `fpga-icestorm` seems like it gives me the command that flashes a program onto the FPGA `git clone https://github.com/cliffordwolf/icestorm.git`
+-Need to look at the git pages for the correct setup
 
 ##Things I had to do differently
 - I didn't use IceCube or Diamond because they require licenses and it's Saturday
-- I had to take out the "ports" I'm not using from the .pcf file because: `Go_Board_Constraints.pcf:16: fatal error: no port 'i_Clk' in top-level module 'SwitchesToLEDs'`
 - I **can't** rename ports.  They must match the .pcf file apparently.
 - I had to tell arachne-pnr that it's dealing with a "VQ100" board and not whatever the default is ("tq144")
 
+For the following examples, we're assuming the program's name is `Switches_To_LEDs`
+
 ##Successful workflow
-- Synthesis: `yosys -p 'synth_ice40 -top SwitchesToLEDs -blif SwitchesToLEDs.blif' SwitchesToLEDs.v`
-  - End of happy output:
-```2.27. Printing statistics.
+- Synthesis: `yosys -q -p "synth_ice40 -top Switches_To_LEDs -json Switches_To_LEDs.json" Switches_To_LEDs.v`
+- `-q` is the quiet option.  TURN THIS OFF IN THE BEGINNING
+- `synth_ice40` tells the architecture
+- `Switches_To_LEDs.v` is input
+- `Switches_To_LEDs.json` is the output
+- End of happy output without `-q`:
+```
+2.49. Printing statistics.
 
-=== SwitchesToLEDs ===
+=== Switches_To_LEDs ===
 
-   Number of wires:                  8
-   Number of wire bits:              8
-   Number of public wires:           8
-   Number of public wire bits:       8
-   Number of memories:               0
-   Number of memory bits:            0
-   Number of processes:              0
-   Number of cells:                  0
+Number of wires:                  8
+Number of wire bits:              8
+Number of public wires:           8
+Number of public wire bits:       8
+Number of memories:               0
+Number of memory bits:            0
+Number of processes:              0
+Number of cells:                  0
 
-2.28. Executing CHECK pass (checking for obvious problems).
-checking module SwitchesToLEDs..
+2.50. Executing CHECK pass (checking for obvious problems).
+checking module Switches_To_LEDs..
 found and reported 0 problems.
 
-2.29. Executing BLIF backend.
+2.51. Executing JSON backend.
 
-End of script. Logfile hash: 649a1b8bf8
-CPU: user 0.12s system 0.00s, MEM: 64.40 MB total, 37.24 MB resident
-Yosys 0.7 (git sha1 61f6811, gcc 6.2.0-11ubuntu1 -O2 -fdebug-prefix-map=/build/yosys-OIL3SR/yosys-0.7=. -fstack-protector-strong -fPIC -Os)
-Time spent: 55% 9x read_verilog (0 sec), 16% 1x share (0 sec), ...
+End of script. Logfile hash: 9cbc9df87c, CPU: user 0.28s system 0.02s, MEM: 51.34 MB peak
+Yosys 0.9+2406 (git sha1 aafaeb6, clang 3.8.0-2ubuntu4 -fPIC -Os)
 ```
-- Place and Route: `arachne-pnr -d 1k -o SwitchesToLEDs.asc -P vq100 --pcf-file Go_Board_Constraints.pcf SwitchesToLEDs.blif`
+- Place and Route: `nextpnr-ice40 -q --hx1k --package vq100  --freq 25 --top Switches_To_LEDs --pcf Go_Board_Constraints.pcf --json Switches_To_LEDs --asc Switches_To_LEDs.asc`
+- `vq100` is the board architecture
+- `--freq 25` says the board is 25 MHz.  Don't mess with this
+- `--pcf ` is a constraint file.  `Go_Board_Constraints.pcf` is available on the Nandland website: https://www.nandland.com/goboard/Go_Board_Constraints.pcf
   - End of happy output: 
-```place_constraints...
-promote_globals...
-  promoted 0 nets
-  0 globals
-realize_constants...
-place...
-  initial wire length = 11
-  at iteration #50: temp = 7.92282, wire length = 11
-  final wire length = 11
+```
+Info: Routing..
+Info: Setting up routing queue.
+Info: Routing 4 arcs.
+Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
+Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
+Info:          4 |        0          4 |    0     4 |         0|       0.00       0.00|
+Info: Routing complete.
+Info: Router1 time 0.00s
+Info: Checksum: 0xf3a28405
+Warning: No clocks found in design
 
-After placement:
-PIOs       5 / 72
-PLBs       0 / 160
-BRAMs      0 / 16
+Info: Critical path report for cross-domain path '<async>' -> '<async>':
+Info: curr total
+Info:  0.0  0.0  Source i_Switch_2$sb_io.D_IN_0
+Info:  1.6  1.6    Net o_LED_2$SB_IO_OUT budget 40.000000 ns (13,3) -> (13,7)
+Info:                Sink o_LED_2$sb_io.D_OUT_0
+Info: 0.0 ns logic, 1.6 ns routing
 
-  place time 0.00s
-route...
-  pass 1, 0 shared.
+Info: Max delay <async> -> <async>: 1.59 ns
 
-After routing:
-span_4     6 / 6944
-span_12    0 / 1440
-
-  route time 0.01s
-write_txt SwitchesToLEDs.asc...
+Info: Slack histogram:
+Info:  legend: * represents 1 endpoint(s)
+Info:          + represents [1,1) endpoint(s)
+Info: [ 38411,  38443) |* 
+Info: [ 38443,  38475) | 
+Info: [ 38475,  38507) | 
+Info: [ 38507,  38539) | 
+Info: [ 38539,  38571) | 
+Info: [ 38571,  38603) | 
+Info: [ 38603,  38635) | 
+Info: [ 38635,  38667) | 
+Info: [ 38667,  38699) | 
+Info: [ 38699,  38731) |* 
+Info: [ 38731,  38763) | 
+Info: [ 38763,  38795) | 
+Info: [ 38795,  38827) | 
+Info: [ 38827,  38859) | 
+Info: [ 38859,  38891) | 
+Info: [ 38891,  38923) | 
+Info: [ 38923,  38955) | 
+Info: [ 38955,  38987) | 
+Info: [ 38987,  39019) | 
+Info: [ 39019,  39051) |** 
 ```
 - Examine output (not on Nandland)
   - `icepack SwitchesToLEDs.asc SwitchesToLEDs.bin`
