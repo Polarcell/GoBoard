@@ -20,42 +20,45 @@ module Segment_Display_Count ( i_Clk, i_Count, o_Segment1, o_Segment2 );
     r_place2[2] <= i_Count[2];  
     r_place2[1] <= i_Count[1];  
     r_place2[0] <= i_Count[0];  
+      
+    case (r_place1)
+      0  : r_Segment1 <= 7'h7E;
+      1  : r_Segment1 <= 7'h30; 
+      2  : r_Segment1 <= 7'h6D; 
+      3  : r_Segment1 <= 7'h79; 
+      4  : r_Segment1 <= 7'h33; 
+      5  : r_Segment1 <= 7'h5B; 
+      6  : r_Segment1 <= 7'h5F; 
+      7  : r_Segment1 <= 7'h70; 
+      8  : r_Segment1 <= 7'h7F; 
+      9  : r_Segment1 <= 7'h7B; 
+      10 : r_Segment1 <= 7'h77; 
+      11 : r_Segment1 <= 7'h1F; 
+      12 : r_Segment1 <= 7'h4E; 
+      13 : r_Segment1 <= 7'h3D; 
+      14 : r_Segment1 <= 7'h4F; 
+      15 : r_Segment1 <= 7'h47; 
+    endcase
 
-    if( r_place1 == 0 )       r_Segment1 <= 7'h7E;
-    else if( r_place1 == 1 )  r_Segment1 <= 7'h30; 
-    else if( r_place1 == 2 )  r_Segment1 <= 7'h6D; 
-    else if( r_place1 == 3 )  r_Segment1 <= 7'h79; 
-    else if( r_place1 == 4 )  r_Segment1 <= 7'h33; 
-    else if( r_place1 == 5 )  r_Segment1 <= 7'h5B; 
-    else if( r_place1 == 6 )  r_Segment1 <= 7'h5F; 
-    else if( r_place1 == 7 )  r_Segment1 <= 7'h70; 
-    else if( r_place1 == 8 )  r_Segment1 <= 7'h7F; 
-    else if( r_place1 == 9 )  r_Segment1 <= 7'h7B; 
-    else if( r_place1 == 10 ) r_Segment1 <= 7'h77; 
-    else if( r_place1 == 11 ) r_Segment1 <= 7'h1F; 
-    else if( r_place1 == 12 ) r_Segment1 <= 7'h4E; 
-    else if( r_place1 == 13 ) r_Segment1 <= 7'h3D; 
-    else if( r_place1 == 14 ) r_Segment1 <= 7'h4F; 
-    else if( r_place1 == 15 ) r_Segment1 <= 7'h47; 
-    else r_Segment1 = 7'h00;
+    case (r_place2)
+      0  : r_Segment2 <= 7'h7E;
+      1  : r_Segment2 <= 7'h30; 
+      2  : r_Segment2 <= 7'h6D; 
+      3  : r_Segment2 <= 7'h79; 
+      4  : r_Segment2 <= 7'h33; 
+      5  : r_Segment2 <= 7'h5B; 
+      6  : r_Segment2 <= 7'h5F; 
+      7  : r_Segment2 <= 7'h70; 
+      8  : r_Segment2 <= 7'h7F; 
+      9  : r_Segment2 <= 7'h7B; 
+      10 : r_Segment2 <= 7'h77; 
+      11 : r_Segment2 <= 7'h1F; 
+      12 : r_Segment2 <= 7'h4E; 
+      13 : r_Segment2 <= 7'h3D; 
+      14 : r_Segment2 <= 7'h4F; 
+      15 : r_Segment2 <= 7'h47; 
+    endcase
 
-    if( r_place2 == 0 )       r_Segment2 <= 7'h7E;
-    else if( r_place2 == 1 )  r_Segment2 <= 7'h30; 
-    else if( r_place2 == 2 )  r_Segment2 <= 7'h6D; 
-    else if( r_place2 == 3 )  r_Segment2 <= 7'h79; 
-    else if( r_place2 == 4 )  r_Segment2 <= 7'h33; 
-    else if( r_place2 == 5 )  r_Segment2 <= 7'h5B; 
-    else if( r_place2 == 6 )  r_Segment2 <= 7'h5F; 
-    else if( r_place2 == 7 )  r_Segment2 <= 7'h70; 
-    else if( r_place2 == 8 )  r_Segment2 <= 7'h7F; 
-    else if( r_place2 == 9 )  r_Segment2 <= 7'h7B; 
-    else if( r_place2 == 10 ) r_Segment2 <= 7'h77; 
-    else if( r_place2 == 11 ) r_Segment2 <= 7'h1F; 
-    else if( r_place2 == 12 ) r_Segment2 <= 7'h4E; 
-    else if( r_place2 == 13 ) r_Segment2 <= 7'h3D; 
-    else if( r_place2 == 14 ) r_Segment2 <= 7'h4F; 
-    else if( r_place2 == 15 ) r_Segment2 <= 7'h47; 
-    else r_Segment2 = 7'h00;
   end
 
   assign o_Segment1 = r_Segment1;  
