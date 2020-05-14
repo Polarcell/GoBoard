@@ -15,10 +15,12 @@ module Debounce_Project_Top
   reg r_LED_2    = 1'b0;
   reg r_LED_3    = 1'b0;
   reg r_LED_4    = 1'b0;
+
   reg r_Switch_1 = 1'b0;
   reg r_Switch_2 = 1'b0;
   reg r_Switch_3 = 1'b0;
   reg r_Switch_4 = 1'b0;
+
   wire w_Switch_1;
   wire w_Switch_2;
   wire w_Switch_3;
@@ -57,22 +59,25 @@ module Debounce_Project_Top
     //   i_Switch_1 = 0
     //     o_LED_1 = ~r_LED_1
 
-    if( i_Switch_1 == 1'b0 && r_Switch_1 == 1'b1)
+    // This conditional expression looks for a falling edge on w_Switch_1.
+    // Here, the current value (i_Switch_1) is low, but the previous value
+    // (r_Switch_1) is high.  This means that we found a falling edge.
+    if (w_Switch_1 == 1'b0 && r_Switch_1 == 1'b1)
     begin
       r_LED_1 <= ~r_LED_1;
     end
 
-    if( i_Switch_2 == 1'b0 && r_Switch_2 == 1'b1)
+    if( w_Switch_2 == 1'b0 && r_Switch_2 == 1'b1)
     begin
       r_LED_2 <= ~r_LED_2;
     end
 
-    if( i_Switch_3 == 1'b0 && r_Switch_3 == 1'b1)
+    if( w_Switch_3 == 1'b0 && r_Switch_3 == 1'b1)
     begin
       r_LED_3 <= ~r_LED_3;
     end
     
-    if( i_Switch_4 == 1'b0 && r_Switch_4 == 1'b1)
+    if( w_Switch_4 == 1'b0 && r_Switch_4 == 1'b1)
     begin
       r_LED_4 <= ~r_LED_4;
     end

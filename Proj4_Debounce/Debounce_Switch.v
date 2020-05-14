@@ -7,13 +7,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 module Debounce_Switch (input i_Clk, input i_Switch, output o_Switch );
   //Count clock ticks
-  parameter c_DEBOUNCE_LIMIT = 250000;
+  parameter c_DEBOUNCE_LIMIT = 250000;  // 10 ms at 25 MHz
 
   //18 bin register
   reg [17:0] r_Count = 0;
   reg r_State = 1'b0; 
                
-  always @ (posedge i_Clk)
+  always @(posedge i_Clk)
   begin
     // Switch input is different than internal switch value, so an input is
     // changing.  Increase the counter until it is stable for enough time.  
