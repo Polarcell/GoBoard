@@ -26,6 +26,9 @@ module Segment_Project_Top
    output o_Segment2_F,
    output o_Segment2_G );
    
+  //NOTE: These are packed arrays, meaning the bits are next to each other
+  // If the brackets are afterwards, these are unpacked arrays, meaning the info is 
+  // spread out.  Unpacked cannot be passed to modules
   reg [3:0] r_LEDs     = 4'b0000;
   reg [3:0] r_Switches = 4'b0000;
 
@@ -38,7 +41,7 @@ module Segment_Project_Top
   wire [6:0] w_Segment2;
 
   //Counter of button presses
-  parameter c_BUTTON_COUNT_LIMIT = 10;
+  parameter c_BUTTON_COUNT_LIMIT = 256;
   reg [7:0] r_Button_Count       = 0;
 
   //Instantiate Debounce Module

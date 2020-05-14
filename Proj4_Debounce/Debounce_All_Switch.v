@@ -16,6 +16,7 @@ module Debounce_All_Switch ( i_Clk, i_Switch_1, i_Switch_2, i_Switch_3, i_Switch
   parameter c_DEBOUNCE_LIMIT = 250000;  // 10 ms at 25 MHz
 
   //18 bin register
+  // Cannot put these into one unpacked array, does not allow for initialization
   reg [17:0] r_Count_1 = 0; 
   reg [17:0] r_Count_2 = 0; 
   reg [17:0] r_Count_3 = 0; 
