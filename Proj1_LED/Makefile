@@ -1,9 +1,9 @@
-#TOP = Proj1_LED/Switched_To_LEDs 
+TOP = Switches_To_LEDs 
 all:
-	make -f ../Makefile TOP="Switches_To_LEDs" #> proj1_make.log
+	make -f ../Makefile TOP=$(TOP)
 
 build:
-	make -f ../Makefile build TOP="Switches_To_LEDs" #> proj1_make.log
+	make -f ../Makefile build TOP=$(TOP)
 
 clean:
-	make -f ../Makefile clean TOP="Switches_To_LEDs"
+	make -f ../Makefile clean TOP=$(TOP)
