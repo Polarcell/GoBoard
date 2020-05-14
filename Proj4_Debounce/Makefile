@@ -1,4 +1,4 @@
-TOP = Debounce_Clock_Top 
+TOP = Debounce_Project_Top 
 all:
 	make -f ../Makefile TOP=$(TOP)
 

@@ -1,3 +1,4 @@
+`include "Debounce_Switch.v"
 module Debounce_Project_Top
   (input i_Clk,
    input i_Switch_1,
